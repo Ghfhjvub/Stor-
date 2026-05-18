@@ -1,0 +1,1232 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>الصيني استور | El Sini Store</title>
+    <!-- مكتبة الأيقونات العالمية Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- مكتبة الأنيميشن Animate.css -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"/>
+    
+    <style>
+        :root {
+            --bg-color: #f8f9fa;
+            --surface-color: #ffffff;
+            --text-color: #212529;
+            --primary-color: #e63946;
+            --primary-hover: #c1121f;
+            --accent-color: #1d3557;
+            --border-color: #dee2e6;
+            --shadow: 0 4px 15px rgba(0,0,0,0.05);
+            --transition: all 0.3s ease;
+        }
+
+        [data-theme="dark"] {
+            --bg-color: #121212;
+            --surface-color: #1e1e1e;
+            --text-color: #f8f9fa;
+            --primary-color: #ff4d6d;
+            --primary-hover: #ff758f;
+            --accent-color: #aaccff;
+            --border-color: #333333;
+            --shadow: 0 4px 15px rgba(0,0,0,0.3);
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            transition: background-color 0.3s, color 0.3s;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            overflow-x: hidden;
+        }
+
+        /* هيدر الموقع الثابت */
+        header {
+            background-color: rgba(var(--surface-color), 0.95);
+            backdrop-filter: blur(10px);
+            box-shadow: var(--shadow);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            padding: 15px 5%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .logo {
+            font-size: 1.6rem;
+            font-weight: bold;
+            color: var(--primary-color);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .header-controls {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .cart-icon-wrapper {
+            position: relative;
+            cursor: pointer;
+            font-size: 1.4rem;
+        }
+
+        .cart-count {
+            position: absolute;
+            top: -10px;
+            right: -10px;
+            background-color: var(--primary-color);
+            color: white;
+            border-radius: 50%;
+            padding: 2px 6px;
+            font-size: 0.75rem;
+            font-weight: bold;
+        }
+
+        .menu-btn {
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            color: var(--text-color);
+            cursor: pointer;
+        }
+
+        /* خلفية الفيديو الثابتة */
+        .hero-video-container {
+            position: relative;
+            width: 100%;
+            height: 60vh;
+            overflow: hidden;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+        }
+
+        .hero-video {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            min-width: 100%;
+            min-height: 100%;
+            width: auto;
+            height: auto;
+            z-index: -2;
+            transform: translate(-50%, -50%);
+            object-fit: cover;
+        }
+
+        .hero-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.6);
+            z-index: -1;
+        }
+
+        .hero-content {
+            color: white;
+            z-index: 1;
+            padding: 0 20px;
+        }
+
+        .hero-content h1 {
+            font-size: 3rem;
+            margin-bottom: 15px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
+        }
+
+        /* أشرطة الزينة النصية المتحركة */
+        .marquee-wrapper {
+            background-color: var(--surface-color);
+            padding: 15px 0;
+            border-top: 1px solid var(--border-color);
+            border-bottom: 1px solid var(--border-color);
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            user-select: none;
+        }
+
+        .marquee-row {
+            display: flex;
+            width: max-content;
+            gap: 50px;
+            font-size: 1.5rem;
+            font-weight: 800;
+            letter-spacing: 2px;
+            color: var(--primary-color);
+            opacity: 0.7;
+        }
+
+        .marquee-right-left { animation: scrollRightLeft 25s linear infinite; }
+        .marquee-left-right { animation: scrollLeftRight 25s linear infinite; }
+
+        @keyframes scrollRightLeft {
+            0% { transform: translateX(0); }
+            100% { transform: translateX(-50%); }
+        }
+        @keyframes scrollLeftRight {
+            0% { transform: translateX(-50%); }
+            100% { transform: translateX(0); }
+        }
+
+        /* القائمة الجانبية (المنيو) */
+        .sidebar {
+            position: fixed;
+            top: 0;
+            right: -320px;
+            width: 300px;
+            height: 100%;
+            background-color: var(--surface-color);
+            box-shadow: var(--shadow);
+            z-index: 1001;
+            padding: 30px 20px;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            transition: right 0.4s cubic-bezier(0.05, 0.74, 0.2, 0.99);
+            overflow-y: auto;
+        }
+
+        html[dir="ltr"] .sidebar {
+            right: auto;
+            left: -320px;
+            transition: left 0.4s cubic-bezier(0.05, 0.74, 0.2, 0.99);
+        }
+
+        .sidebar.active { right: 0; }
+        html[dir="ltr"] .sidebar.active { left: 0; }
+
+        .sidebar-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid var(--border-color);
+            padding-bottom: 15px;
+            margin-bottom: 15px;
+        }
+
+        .close-sidebar {
+            background: none;
+            border: none;
+            font-size: 1.3rem;
+            color: var(--text-color);
+            cursor: pointer;
+        }
+
+        .menu-item {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            padding: 14px 12px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 500;
+            text-decoration: none;
+            color: var(--text-color);
+        }
+
+        .menu-item:hover {
+            background-color: var(--border-color);
+            transform: translateX(-5px);
+        }
+        html[dir="ltr"] .menu-item:hover { transform: translateX(5px); }
+
+        .menu-divider {
+            height: 1px;
+            background-color: var(--border-color);
+            margin: 10px 0;
+        }
+
+        /* شبكة المنتجات والأقسام */
+        .container {
+            max-width: 1200px;
+            margin: 40px auto;
+            padding: 0 15px;
+        }
+
+        .section-title {
+            font-size: 1.8rem;
+            margin-bottom: 5px;
+            border-right: 5px solid var(--primary-color);
+            padding-right: 15px;
+            color: var(--text-color);
+        }
+        html[dir="ltr"] .section-title {
+            border-right: none;
+            border-left: 5px solid var(--primary-color);
+            padding-left: 15px;
+            padding-right: 0;
+        }
+
+        .section-subtitle {
+            font-size: 1.05rem;
+            color: #2ec4b6;
+            margin-bottom: 25px;
+            padding-right: 20px;
+            font-weight: bold;
+        }
+
+        .products-grid, .games-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 15px;
+        }
+
+        @media (min-width: 768px) {
+            .products-grid, .games-grid { grid-template-columns: repeat(3, 1fr); }
+        }
+        @media (min-width: 1024px) {
+            .products-grid, .games-grid { grid-template-columns: repeat(4, 1fr); }
+        }
+
+        .product-card, .game-card {
+            background-color: var(--surface-color);
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: var(--shadow);
+            border: 1px solid var(--border-color);
+            display: flex;
+            flex-direction: column;
+            position: relative;
+        }
+
+        .product-img-container, .game-img-container {
+            position: relative;
+            width: 100%;
+            padding-top: 100%;
+            overflow: hidden;
+        }
+        .game-img-container { padding-top: 130%; }
+
+        .product-card img, .game-card img {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.5s ease;
+        }
+
+        .product-card img:hover, .game-card img:hover { transform: scale(1.06); }
+
+        .product-info, .game-info {
+            padding: 12px;
+            display: flex;
+            flex-direction: column;
+            flex-grow: 1;
+            gap: 8px;
+        }
+
+        .game-info { text-align: center; background: rgba(0,0,0,0.02); }
+
+        .product-title, .game-title {
+            font-size: 0.95rem;
+            font-weight: 600;
+            height: 40px;
+            overflow: hidden;
+        }
+        .game-title { height: auto; font-size: 1rem; padding: 5px 0; }
+
+        .product-price {
+            color: var(--primary-color);
+            font-weight: bold;
+            font-size: 1.1rem;
+        }
+
+        .add-to-cart-btn {
+            background-color: var(--primary-color);
+            color: white;
+            border: none;
+            padding: 10px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 600;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 8px;
+            margin-top: auto;
+        }
+
+        .add-to-cart-btn:hover { background-color: var(--primary-hover); }
+
+        /* شارات مميزة للمنصات داخل قسم الألعاب */
+        .game-badge {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background-color: rgba(0, 0, 0, 0.75);
+            color: #fff;
+            padding: 4px 10px;
+            font-size: 0.75rem;
+            font-weight: bold;
+            border-radius: 20px;
+            border: 1px solid rgba(255,255,255,0.2);
+            z-index: 2;
+        }
+        .game-badge.ps5 { background-color: #003087; }
+        .game-badge.pc { background-color: #f39c12; }
+
+        /* قسم عرض الفيديوهات الـ 5 */
+        .videos-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 20px;
+            margin-top: 20px;
+            align-items: start;
+        }
+        @media (min-width: 768px) {
+            .videos-grid { grid-template-columns: repeat(2, 1fr); }
+        }
+        @media (min-width: 1024px) {
+            .videos-grid { grid-template-columns: repeat(3, 1fr); }
+        }
+
+        .video-card {
+            background-color: var(--surface-color);
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: var(--shadow);
+            border: 1px solid var(--border-color);
+            display: flex;
+            flex-direction: column;
+        }
+
+        .video-wrapper {
+            position: relative;
+            width: 100%;
+            height: auto;
+            background-color: #000;
+            display: flex;
+        }
+
+        .video-wrapper video {
+            width: 100%;
+            height: auto;
+            max-height: 550px;
+            object-fit: contain;
+            display: block;
+        }
+
+        .video-info { padding: 15px; }
+        .video-info h4 { font-size: 1rem; font-weight: 600; color: var(--text-color); }
+
+        /* تأثير الأنيميشن الطائر إلى السلة */
+        .flying-item {
+            position: fixed;
+            z-index: 9999;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            object-fit: cover;
+            pointer-events: none;
+            transition: all 0.8s cubic-bezier(0.19, 1, 0.22, 1);
+        }
+
+        /* سلة المشتريات الجانبية */
+        .cart-sidebar {
+            position: fixed;
+            top: 0;
+            left: -350px;
+            width: 320px;
+            height: 100%;
+            background-color: var(--surface-color);
+            box-shadow: var(--shadow);
+            z-index: 1050;
+            padding: 25px 20px;
+            display: flex;
+            flex-direction: column;
+            transition: left 0.4s ease;
+        }
+
+        html[dir="ltr"] .cart-sidebar {
+            left: auto;
+            right: -350px;
+            transition: right 0.4s ease;
+        }
+
+        .cart-sidebar.active { left: 0; }
+        html[dir="ltr"] .cart-sidebar.active { right: 0; }
+
+        .cart-items-list {
+            flex-grow: 1;
+            overflow-y: auto;
+            margin: 20px 0;
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .cart-item {
+            display: flex;
+            gap: 10px;
+            align-items: center;
+            border-bottom: 1px solid var(--border-color);
+            padding-bottom: 10px;
+        }
+
+        .cart-item img { width: 50px; height: 50px; object-fit: cover; border-radius: 6px; }
+        .cart-item-info { flex-grow: 1; }
+
+        .quantity-control {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin-top: 5px;
+        }
+
+        .qty-btn {
+            background: var(--border-color);
+            border: none;
+            width: 24px;
+            height: 24px;
+            border-radius: 4px;
+            cursor: pointer;
+            color: var(--text-color);
+        }
+
+        .checkout-btn {
+            background-color: #2ec4b6;
+            color: white;
+            border: none;
+            width: 100%;
+            padding: 12px;
+            border-radius: 8px;
+            font-size: 1.1rem;
+            font-weight: bold;
+            cursor: pointer;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 10px;
+        }
+
+        /* استمارة الشراء */
+        .form-group { margin-bottom: 15px; }
+        .form-group label { display: block; margin-bottom: 5px; font-weight: 600; font-size: 0.9rem; }
+        .form-group input, .form-group select {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+        }
+
+        .submit-order-btn {
+            background-color: #25d366;
+            color: white;
+            border: none;
+            width: 100%;
+            padding: 12px;
+            border-radius: 8px;
+            font-size: 1.1rem;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        /* الفوتر */
+        footer {
+            background-color: var(--surface-color);
+            border-top: 1px solid var(--border-color);
+            padding: 40px 5% 20px 5%;
+            margin-top: 50px;
+        }
+
+        .footer-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 30px;
+            margin-bottom: 30px;
+        }
+
+        .footer-about h3, .footer-contact h3 { color: var(--primary-color); margin-bottom: 15px; }
+
+        .social-icons { display: flex; gap: 15px; margin-top: 15px; }
+        .social-icons a {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            text-decoration: none;
+            font-size: 1.2rem;
+            transition: var(--transition);
+        }
+
+        .social-icons a:hover {
+            background-color: var(--primary-color);
+            color: white;
+            transform: translateY(-5px);
+        }
+
+        .whatsapp-sticky {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background-color: #25d366;
+            color: white;
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 2rem;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+            z-index: 999;
+            text-decoration: none;
+        }
+
+        .footer-bottom {
+            text-align: center;
+            padding-top: 20px;
+            border-top: 1px solid var(--border-color);
+            font-size: 0.9rem;
+            color: gray;
+        }
+
+        /* نافذة الدفع */
+        .modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0,0,0,0.8);
+            z-index: 2000;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.3s ease;
+            padding: 20px;
+        }
+
+        .modal.active { opacity: 1; pointer-events: auto; }
+
+        .modal-content {
+            background-color: var(--surface-color);
+            max-width: 500px;
+            width: 100%;
+            border-radius: 16px;
+            padding: 20px;
+            position: relative;
+            box-shadow: var(--shadow);
+        }
+
+        .close-modal {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            background: rgba(0,0,0,0.1);
+            border: none;
+            width: 35px;
+            height: 35px;
+            border-radius: 50%;
+            cursor: pointer;
+            color: var(--text-color);
+            font-size: 1.2rem;
+            z-index: 10;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- الهيدر الرئيسي -->
+    <header>
+        <div class="logo">
+            <i class="fa-solid fa-bolt animate__animated animate__bounce"></i>
+            <span id="store-name">الصيني استور</span>
+        </div>
+        <div class="header-controls">
+            <div class="cart-icon-wrapper" onclick="toggleCart(true)">
+                <i class="fa-solid fa-basket-shopping"></i>
+                <span class="cart-count" id="cart-count">0</span>
+            </div>
+            <button class="menu-btn" onclick="toggleSidebar(true)">
+                <i class="fa-solid fa-bars-staggered"></i>
+            </button>
+        </div>
+    </header>
+
+    <!-- واجهة الفيديو الثابتة الرئيسية -->
+    <section class="hero-video-container">
+        <video class="hero-video" autoplay loop muted playsinline>
+            <source src="1.mp4" type="video/mp4">
+        </video>
+        <div class="hero-overlay"></div>
+        <div class="hero-content">
+            <h1 class="animate__animated animate__fadeInDown">مرحباً بكم في الصيني استور</h1>
+            <p class="animate__animated animate__fadeInUp">عالم متكامل من المنتجات الرائعة والأجهزة الفريدة</p>
+        </div>
+    </section>
+
+    <!-- أشرطة الزينة النصية المتحركة -->
+    <div class="marquee-wrapper">
+        <div class="marquee-row marquee-right-left">
+            <span>PS5</span> • <span>PS4</span> • <span>PS3</span> • <span>CONTROL</span> • <span>PC</span> • 
+            <span>PS5</span> • <span>PS4</span> • <span>PS3</span> • <span>CONTROL</span> • <span>PC</span>
+        </div>
+    </div>
+
+    <!-- القائمة الجانبية (المنيو) -->
+    <div class="sidebar" id="sidebar">
+        <div class="sidebar-header">
+            <h3 id="menu-title">القائمة</h3>
+            <button class="close-sidebar" onclick="toggleSidebar(false)"><i class="fa-solid fa-xmark"></i></button>
+        </div>
+        
+        <div class="menu-item" onclick="toggleTheme()">
+            <i class="fa-solid fa-circle-half-stroke"></i>
+            <span id="text-darkmode">الوضع الليلي / المضيء</span>
+        </div>
+        <div class="menu-item" onclick="toggleLanguage()">
+            <i class="fa-solid fa-language"></i>
+            <span id="text-lang">English</span>
+        </div>
+
+        <div class="menu-divider"></div>
+
+        <a href="#" class="menu-item"><i class="fa-solid fa-user-gear"></i><span id="menu-profile">حسابي الشخصي</span></a>
+        <a href="#" class="menu-item"><i class="fa-solid fa-truck-ramp-box"></i><span id="menu-track">تتبع حالة الطلبات</span></a>
+        <a href="#" class="menu-item"><i class="fa-solid fa-percent" style="color: var(--primary-color);"></i><span id="menu-offers" style="font-weight: bold;">أقوى الخصومات والعروض</span></a>
+        <a href="https://wa.me/249911656688" target="_blank" class="menu-item"><i class="fa-solid fa-headset"></i><span id="menu-support">الدعم الفني المباشر</span></a>
+        <a href="#" class="menu-item"><i class="fa-solid fa-shield-halved"></i><span id="menu-policy">سياسة الاستبدال والاسترجاع</span></a>
+    </div>
+
+    <!-- سلة الشراء الجانبية -->
+    <div class="cart-sidebar" id="cart-sidebar">
+        <div class="sidebar-header">
+            <h3 id="cart-title">سلة التسوق</h3>
+            <button class="close-sidebar" onclick="toggleCart(false)"><i class="fa-solid fa-xmark"></i></button>
+        </div>
+        <div class="cart-items-list" id="cart-items-list"></div>
+        <div style="padding: 15px 0; border-top: 1px solid var(--border-color); margin-bottom: 10px;">
+            <div style="display: flex; justify-content: space-between; font-weight: bold; font-size: 1.1rem;">
+                <span id="text-total">الإجمالي:</span>
+                <span id="cart-total-price">0</span>
+            </div>
+        </div>
+        <button class="checkout-btn" onclick="openCheckoutModal()">
+            <i class="fa-solid fa-credit-card"></i> <span id="btn-checkout-text">إتمام الشراء</span>
+        </button>
+    </div>
+
+    <main class="container">
+        
+        <!-- قسم المنتجات الـ 10 المبني بـ HTML بالكامل لسهولة تغيير الروابط -->
+        <h2 class="section-title" id="title-products-section">معرض المنتجات</h2>
+        <div style="height: 20px;"></div>
+        <div class="products-grid" id="products-grid">
+            
+            <!-- منتج 1 -->
+            <div class="product-card" data-id="1">
+                <div class="product-img-container">
+                    <!-- استبدل رابط src برابط صورتك الخاص -->
+                    <img src="5.webp" alt="ps5" loading="lazy">
+                </div>
+                <div class="product-info">
+                    <div class="product-title" data-ar="منتج عصري مميز رقم 1" data-en="Modern Premium Product 1">ps5</div>
+                    <div class="product-price" data-price="3500">3500.000.000 SDG</div>
+                    <button class="add-to-cart-btn" onclick="animateAddToCart(event, 1)">
+                        <i class="fa-solid fa-cart-plus"></i> <span class="buy-text">شراء</span>
+                    </button>
+                </div>
+            </div>
+
+            <!-- منتج 2 -->
+            <div class="product-card" data-id="2">
+                <div class="product-img-container">
+                    <img src="4.jpeg" alt="منتج 2" loading="lazy">
+                </div>
+                <div class="product-info">
+                    <div class="product-title" data-ar="منتج عصري مميز رقم 2" data-en="Modern Premium Product 2">ps4</div>
+                    <div class="product-price" data-price="1700. 000.000">1700.000.000 SDG</div>
+                    <button class="add-to-cart-btn" onclick="animateAddToCart(event, 2)">
+                        <i class="fa-solid fa-cart-plus"></i> <span class="buy-text">شراء</span>
+                    </button>
+                </div>
+            </div>
+
+            <!-- منتج 3 -->
+            <div class="product-card" data-id="3">
+                <div class="product-img-container">
+                    <img src="24.jpg" alt="منتج 3" loading="lazy">
+                </div>
+                <div class="product-info">
+                    <div class="product-title" data-ar="منتج عصري مميز رقم 3" data-en="Modern Premium Product 3">Mouse bad</div></div>
+                    <div class="product-price" data-price="1800">250 SDG</div>
+                    <button class="add-to-cart-btn" onclick="animateAddToCart(event, 3)">
+                        <i class="fa-solid fa-cart-plus"></i> <span class="buy-text">شراء</span>
+                    </button>
+                </div>
+            </div>
+
+            <!-- منتج 4 -->
+            <div class="product-card" data-id="5">
+                <div class="product-img-container">
+                    <img src="23.jpg" alt="منتج 5" loading="lazy">
+                </div>
+                <div class="product-info">
+                    <div class="product-title" data-ar="منتج عصري مميز رقم 5" data-en="Modern Premium Product 5">ps3</div>
+                    <div class="product-price" data-price="200">200 SDG</div>
+                    <button class="add-to-cart-btn" onclick="animateAddToCart(event, 5)">
+                        <i class="fa-solid fa-cart-plus"></i> <span class="buy-text">شراء</span>
+                    </button>
+                </div>
+            </div>
+    <!-- منتج 5 -->
+            <div class="product-card" data-id="5">
+                <div class="product-img-container">
+                    <img src="20.jpeg" alt=" سماعه" loading="lazy">
+                </div>
+                <div class="product-info">
+                    <div class="product-title" data-ar="سماعه" data-en="Modern Premium Product 5">Headset</div>
+                    <div class="product-price" data-price="2000">200 SDG</div>
+                    <button class="add-to-cart-btn" onclick="animateAddToCart(event, 5)">
+                        <i class="fa-solid fa-cart-plus"></i> <span class="buy-text">شراء</span>
+                    </button>
+                </div>
+            </div>
+
+            <!-- منتج 6 -->
+            <div class="product-card" data-id="6">
+                <div class="product-img-container">
+                    <img src="21.jpg" alt="كيبورد" loading="lazy">
+                </div>
+                <div class="product-info">
+                    <div class="product-title" data-ar="كيبورد" data-en="Modern Premium Product 6">Keyboard</div>
+                    <div class="product-price" data-price="2100">240 SDG</div>
+                    <button class="add-to-cart-btn" onclick="animateAddToCart(event, 6)">
+                        <i class="fa-solid fa-cart-plus"></i> <span class="buy-text">شراء</span>
+                    </button>
+                </div>
+            </div>
+
+            <!-- منتج 7 -->
+            <div class="product-card" data-id="7">
+                <div class="product-img-container">
+                    <img src="15.webp" alt="ماوس" loading="lazy">
+                </div>
+                <div class="product-info">
+                    <div class="product-title" data-ar="ماوس" data-en="Modern Premium Product 7">Mouse Attack Shark</div>
+                    <div class="product-price" data-price="2200">175 SDG</div>
+                    <button class="add-to-cart-btn" onclick="animateAddToCart(event, 7)">
+                        <i class="fa-solid fa-cart-plus"></i> <span class="buy-text">شراء</span>
+                    </button>
+                </div>
+            </div>
+
+            <!-- منتج 8 -->
+            <div class="product-card" data-id="8">
+                <div class="product-img-container">
+                    <img src="12.jpeg" alt="كنترول" loading="lazy">
+                </div>
+                <div class="product-info">
+                    <div class="product-title" data-ar="كنترول" data-en="Modern Premium Product 8">PS4 Controller</div>
+                    <div class="product-price" data-price="2300">50 SDG</div>
+                    <button class="add-to-cart-btn" onclick="animateAddToCart(event, 8)">
+                        <i class="fa-solid fa-cart-plus"></i> <span class="buy-text">شراء</span>
+                    </button>
+                </div>
+            </div>
+
+            <!-- منتج 9 -->
+            <div class="product-card" data-id="9">
+                <div class="product-img-container">
+                    <img src="13.jpeg" alt="كنترول" loading="lazy">
+                </div>
+                <div class="product-info">
+                    <div class="product-title" data-ar="كنترول" data-en="Modern Premium Product 9">PS5 Controller</div>
+                    <div class="product-price" data-price="2400">250 SDG</div>
+                    <button class="add-to-cart-btn" onclick="animateAddToCart(event, 9)">
+                        <i class="fa-solid fa-cart-plus"></i> <span class="buy-text">شراء</span>
+                    </button>
+                </div>
+            </div>
+
+            <!-- منتج 10 -->
+            <div class="product-card" data-id="10">
+                <div class="product-img-container">
+                    <img src="14.jpg" alt="مقود" loading="lazy">
+                </div>
+                <div class="product-info">
+                    <div class="product-title" data-ar="مقود" data-en="Modern Premium Product 10">PS5 Steering Wheel</div>
+                    <div class="product-price" data-price="2500">1600. 000.000SDG</div>
+                    <button class="add-to-cart-btn" onclick="animateAddToCart(event, 10)">
+                        <i class="fa-solid fa-cart-plus"></i> <span class="buy-text">شراء</span>
+                    </button>
+                </div>
+            </div>
+
+        </div>
+
+        <!-- قسم الألعاب المحدث -->
+        <h2 class="section-title" id="title-games-section" style="margin-top: 60px;">قسم الألعاب (PlayStation & PC)</h2>
+        <div class="section-subtitle" id="subtitle-games-section">تنويه: يوجد تنزيل ألعاب للـ PC والبلايستيشن</div>
+        <div class="games-grid">
+            <div class="game-card">
+                <span class="game-badge">PS4 / PS5 / PC</span>
+                <div class="game-img-container"><img src="1.jpeg" alt="Red Dead Redemption 2" loading="lazy"></div>
+                <div class="game-info"><div class="game-title">Red Dead Redemption 2</div></div>
+            </div>
+            <div class="game-card">
+                <span class="game-badge">PS4 / PS5 / PC</span>
+                <div class="game-img-container"><img src="3.png" alt="GTA V" loading="lazy"></div>
+                <div class="game-info"><div class="game-title">Grand Theft Auto V</div></div>
+            </div>
+            <div class="game-card">
+                <span class="game-badge ps5">PS5 / PC</span>
+                <div class="game-img-container"><img src="2.jpeg" alt="FIFA 26" loading="lazy"></div>
+                <div class="game-info"><div class="game-title">EA SPORTS FIFA 26</div></div>
+            </div>
+            <div class="game-card">
+                <span class="game-badge ps5">PS5 ONLY</span>
+                <div class="game-img-container"><img src="9.jpg" alt="Spider-Man 2" loading="lazy"></div>
+                <div class="game-info"><div class="game-title">Marvel's Spider-Man 2</div></div>
+            </div>
+            <div class="game-card">
+                <span class="game-badge pc">PC / PS5</span>
+                <div class="game-img-container"><img src="7.jpeg" alt="Tekken 8" loading="lazy"></div>
+                <div class="game-info"><div class="game-title">Tekken 8</div></div>
+            </div>
+            <div class="game-card">
+                <span class="game-badge">PS4 / PC</span>
+                <div class="game-img-container"><img src="8.jpeg" alt="Call of Duty" loading="lazy"></div>
+                <div class="game-info"><div class="game-title">Call of Duty: Modern Warfare III</div></div>
+            </div>
+        </div>
+
+        <!-- أقسام الفيديوهات الخمسة -->
+        <h2 class="section-title" id="title-videos-section" style="margin-top: 60px;">فيديوهات الاستعراض</h2>
+        <div style="height: 20px;"></div>
+        <div class="videos-grid">
+            <div class="video-card">
+                <div class="video-wrapper"><video controls preload="none" poster="https://picsum.photos/id/101/600/350"><source src="2.mp4" type="video/mp4"></video></div>
+                <div class="video-info"><h4> Red Dead 2</h4></div>
+            </div>
+            <div class="video-card">
+                <div class="video-wrapper"><video controls preload="none" poster="https://picsum.photos/id/102/600/350"><source src="3.mp4" type="video/mp4"></video></div>
+                <div class="video-info"><h4>TEKKEN8</h4></div>
+            </div>
+            <div class="video-card">
+                <div class="video-wrapper"><video controls preload="none" poster="https://picsum.photos/id/103/600/350"><source src="4.mp4" type="video/mp4"></video></div>
+                <div class="video-info"><h4>GTA5</h4></div>
+            </div>
+            <div class="video-card">
+                <div class="video-wrapper"><video controls preload="none" poster="https://picsum.photos/id/104/600/350"><source src="5.mp4" type="video/mp4"></video></div>
+                <div class="video-info"><h4>Spider-Man 2 </h4></div>
+            </div>
+            <div class="video-card">
+                <div class="video-wrapper"><video controls preload="none" poster="https://picsum.photos/id/106/600/350"><source src="6.mp4" type="video/mp4"></video></div>
+                <div class="video-info"><h4> call of duty modern warfare 3</h4></div>
+            </div>
+        </div>
+    </main>
+
+    <!-- نافذة منبثقة لاستمارة الدفع -->
+    <div class="modal" id="checkout-modal">
+        <div class="modal-content animate__animated animate__fadeInUp">
+            <button class="close-modal" onclick="closeCheckoutModal()"><i class="fa-solid fa-xmark"></i></button>
+            <h3 style="margin-bottom: 20px;" id="checkout-form-title">إكمال طلب الشراء</h3>
+            <form id="order-form" onsubmit="sendOrderToWhatsapp(event)">
+                <div class="form-group">
+                    <label id="lbl-name">الاسم الكامل</label>
+                    <input type="text" id="cust-name" required placeholder="أدخل اسمك الكامل">
+                </div>
+                <div class="form-group">
+                    <label id="lbl-phone">رقم الهاتف / الواتساب</label>
+                    <input type="tel" id="cust-phone" required placeholder="مثال: 249911656688">
+                </div>
+                <div class="form-group">
+                    <label id="lbl-address">عنوان التوصيل بالتفصيل</label>
+                    <input type="text" id="cust-address" required placeholder="المدينة، الحي، الشارع">
+                </div>
+                <div class="form-group">
+                    <label id="lbl-payment">طريقة الدفع المفضلة</label>
+                    <select id="cust-payment">
+                        <option value="الدفع عند الاستلام" id="opt-cod">الدفع عند الاستلام (COD)</option>
+                        <option value="تحويل بنكي / تطبيق مصرفي" id="opt-bank">تحويل بنكي</option>
+                    </select>
+                </div>
+                <button type="submit" class="submit-order-btn" id="btn-submit-order">إرسال الفاتورة عبر الواتساب</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- الفوتر -->
+    <footer>
+        <div class="footer-grid">
+            <div class="footer-about">
+                <h3 id="footer-about-title">عن الصيني استور</h3>
+                <p id="footer-about-desc">وجهتك الأولى والأفضل للحصول على أرقى المنتجات بأعلى جودة وأفضل الأسعار التنافسية. نتميز بخدمة توصيل سريعة ودعم فني متواصل.</p>
+                <div class="social-icons">
+                    <a href="https://www.tiktok.com/@user140309077952?_r=1&_t=ZS-96SSFI5M6r7" target="_blank"><i class="fa-brands fa-tiktok"></i></a>
+                    <a href="https://www.facebook.com/share/1DYpGXvk3X/" target="_blank"><i class="fa-brands fa-facebook-f"></i></a>
+                    <a href="https://instagram.com" target="_blank"><i class="fa-brands fa-instagram"></i></a>
+                </div>
+            </div>
+            <div class="footer-contact">
+                <h3 id="footer-contact-title">تواصل مع المبيعات</h3>
+                <p><i class="fa-solid fa-phone" style="margin-left:8px;"></i> 249911656688</p>
+                <p style="margin-top: 10px;"><i class="fa-solid fa-envelope" style="margin-left:8px;"></i> support@alsinistore.com</p>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2026 الصيني استور. جميع الحقوق محفوظة.</p>
+        </div>
+    </footer>
+
+    <!-- زر واتساب العائم -->
+    <a href="https://wa.me/249911656688" class="whatsapp-sticky" target="_blank">
+        <i class="fa-brands fa-whatsapp"></i>
+    </a>
+
+    <script>
+        const WHATSAPP_NUMBER = "249911656688"; 
+        let currentLang = 'ar';
+        let cart = [];
+
+        const translations = {
+            ar: {
+                storeName: "الصيني استور", menuTitle: "القائمة", darkmode: "الوضع الليلي / المضيء",
+                cartTitle: "سلة التسوق", total: "الإجمالي: ", checkout: "إتمام الشراء",
+                formTitle: "إكمال طلب الشراء", name: "الاسم الكامل", phone: "رقم الهاتف / الواتساب",
+                address: "عنوان التوصيل بالتفصيل", payment: "طريقة الدفع المفضلة",
+                submitOrder: "إرسال الفاتورة عبر الواتساب", buyNow: "شراء", currency: "SDG",
+                aboutTitle: "عن الصيني استور", contactTitle: "تواصل مع المبيعات",
+                aboutDesc: "وجهتك الأولى والأفضل للحصول على أرقى المنتجات بأعلى جودة وأفضل الأسعار التنافسية.",
+                cod: "الدفع عند الاستلام", bank: "تحويل بنكي",
+                pSec: "معرض المنتجات", vSec: "فيديوهات الاستعراض", gSec: "قسم الألعاب (PlayStation & PC)",
+                gSub: "تنويه: يوجد تنزيل ألعاب للـ PC والبلايستيشن",
+                pProf: "حسابي الشخصي", pTrack: "تتبع حالة الطلبات", pOff: "أقوى الخصومات والعروض", pSup: "الدعم الفني المباشر", pPol: "سياسة الاستبدال والاسترجاع"
+            },
+            en: {
+                storeName: "El Sini Store", menuTitle: "Menu", darkmode: "Toggle Dark / Light Mode",
+                cartTitle: "Shopping Cart", total: "Total: ", checkout: "Checkout Now",
+                formTitle: "Complete Your Order", name: "Full Name", phone: "Phone / WhatsApp Number",
+                address: "Detailed Delivery Address", payment: "Preferred Payment Method",
+                submitOrder: "Send Invoice via WhatsApp", buyNow: "Add To Cart", currency: "$",
+                aboutTitle: "About El Sini Store", contactTitle: "Contact Sales",
+                aboutDesc: "Your first and best destination to get the finest products with the highest quality and best competitive prices.",
+                cod: "Cash on Delivery", bank: "Bank Transfer",
+                pSec: "Product Gallery", vSec: "Video Showcase", gSec: "Games Section (PlayStation & PC)",
+                gSub: "Notice: PC & PlayStation Games Download Available",
+                pProf: "My Profile", pTrack: "Track Order Status", pOff: "Hot Offers & Discounts", pSup: "Live Technical Support", pPol: "Return & Exchange Policy"
+            }
+        };
+
+        function toggleSidebar(open) { document.getElementById('sidebar').classList.toggle('active', open); }
+        function toggleCart(open) { document.getElementById('cart-sidebar').classList.toggle('active', open); }
+        function toggleTheme() {
+            const currentTheme = document.documentElement.getAttribute('data-theme');
+            document.documentElement.setAttribute('data-theme', currentTheme === 'dark' ? 'light' : 'dark');
+        }
+
+        function toggleLanguage() {
+            currentLang = currentLang === 'ar' ? 'en' : 'ar';
+            document.documentElement.lang = currentLang;
+            document.documentElement.dir = currentLang === 'ar' ? 'rtl' : 'ltr';
+
+            // تحديث النصوص الثابتة واجهة المستخدم
+            document.getElementById('store-name').innerText = translations[currentLang].storeName;
+            document.getElementById('menu-title').innerText = translations[currentLang].menuTitle;
+            document.getElementById('text-darkmode').innerText = translations[currentLang].darkmode;
+            document.getElementById('cart-title').innerText = translations[currentLang].cartTitle;
+            document.getElementById('text-total').innerText = translations[currentLang].total;
+            document.getElementById('btn-checkout-text').innerText = translations[currentLang].checkout;
+            document.getElementById('checkout-form-title').innerText = translations[currentLang].formTitle;
+            document.getElementById('lbl-name').innerText = translations[currentLang].name;
+            document.getElementById('lbl-phone').innerText = translations[currentLang].phone;
+            document.getElementById('lbl-address').innerText = translations[currentLang].address;
+            document.getElementById('lbl-payment').innerText = translations[currentLang].payment;
+            document.getElementById('btn-submit-order').innerText = translations[currentLang].submitOrder;
+            document.getElementById('footer-about-title').innerText = translations[currentLang].aboutTitle;
+            document.getElementById('footer-about-desc').innerText = translations[currentLang].aboutDesc;
+            document.getElementById('footer-contact-title').innerText = translations[currentLang].contactTitle;
+            document.getElementById('opt-cod').innerText = translations[currentLang].cod;
+            document.getElementById('opt-bank').innerText = translations[currentLang].bank;
+            document.getElementById('title-products-section').innerText = translations[currentLang].pSec;
+            document.getElementById('title-videos-section').innerText = translations[currentLang].vSec;
+            document.getElementById('title-games-section').innerText = translations[currentLang].gSec;
+            document.getElementById('subtitle-games-section').innerText = translations[currentLang].gSub;
+            document.getElementById('menu-profile').innerText = translations[currentLang].pProf;
+            document.getElementById('menu-track').innerText = translations[currentLang].pTrack;
+            document.getElementById('menu-offers').innerText = translations[currentLang].pOff;
+            document.getElementById('menu-support').innerText = translations[currentLang].pSup;
+            document.getElementById('menu-policy').innerText = translations[currentLang].pPol;
+
+            // تحديث نصوص كروت المنتجات المبنية في الـ HTML ثنائية اللغة
+            document.querySelectorAll('.product-card').forEach(card => {
+                const titleEl = card.querySelector('.product-title');
+                const priceEl = card.querySelector('.product-price');
+                const buyTextEl = card.querySelector('.buy-text');
+                const priceValue = priceEl.getAttribute('data-price');
+                
+                titleEl.innerText = currentLang === 'ar' ? titleEl.getAttribute('data-ar') : titleEl.getAttribute('data-en');
+                priceEl.innerText = `${priceValue} ${translations[currentLang].currency}`;
+                buyTextEl.innerText = translations[currentLang].buyNow;
+            });
+
+            updateCartUI();
+            toggleSidebar(false);
+        }
+
+        function animateAddToCart(e, productId) {
+            const button = e.currentTarget;
+            const card = button.closest('.product-card');
+            const img = card.querySelector('img');
+            
+            const flyingImg = img.cloneNode();
+            flyingImg.classList.add('flying-item');
+            document.body.appendChild(flyingImg);
+
+            const imgCoords = img.getBoundingClientRect();
+            const cartIcon = document.querySelector('.cart-icon-wrapper');
+            const cartCoords = cartIcon.getBoundingClientRect();
+
+            flyingImg.style.left = `${imgCoords.left}px`;
+            flyingImg.style.top = `${imgCoords.top}px`;
+            flyingImg.style.width = `${imgCoords.width}px`;
+            flyingImg.style.height = `${imgCoords.height}px`;
+
+            setTimeout(() => {
+                flyingImg.style.left = `${cartCoords.left}px`;
+                flyingImg.style.top = `${cartCoords.top}px`;
+                flyingImg.style.width = '10px';
+                flyingImg.style.height = '10px';
+                flyingImg.style.opacity = '0.3';
+            }, 10);
+
+            setTimeout(() => {
+                flyingImg.remove();
+                addToCartFromHTML(card);
+                cartIcon.classList.add('animate__animated', 'animate__rubberBand');
+                setTimeout(() => cartIcon.classList.remove('animate__animated', 'animate__rubberBand'), 1000);
+            }, 800);
+        }
+
+        function addToCartFromHTML(card) {
+            const id = parseInt(card.getAttribute('data-id'));
+            const titleAr = card.querySelector('.product-title').getAttribute('data-ar');
+            const titleEn = card.querySelector('.product-title').getAttribute('data-en');
+            const price = parseFloat(card.querySelector('.product-price').getAttribute('data-price'));
+            const image = card.querySelector('img').src;
+
+            const existItem = cart.find(item => item.id === id);
+
+            if (existItem) {
+                existItem.quantity += 1;
+            } else {
+                cart.push({ id, titleAr, titleEn, price, image, quantity: 1 });
+            }
+            updateCartUI();
+        }
+
+        function changeQty(productId, delta) {
+            const item = cart.find(item => item.id === productId);
+            if (item) {
+                item.quantity += delta;
+                if (item.quantity <= 0) { cart = cart.filter(i => i.id !== productId); }
+                updateCartUI();
+            }
+        }
+
+        function updateCartUI() {
+            const list = document.getElementById('cart-items-list');
+            list.innerHTML = '';
+            let total = 0;
+            let count = 0;
+
+            cart.forEach(item => {
+                total += item.price * item.quantity;
+                count += item.quantity;
+                const title = currentLang === 'ar' ? item.titleAr : item.titleEn;
+
+                const itemEl = document.createElement('div');
+                itemEl.className = 'cart-item';
+                itemEl.innerHTML = `
+                    <img src="${item.image}">
+                    <div class="cart-item-info">
+                        <div style="font-size:0.9rem; font-weight:600;">${title}</div>
+                        <div style="color:var(--primary-color); font-size:0.85rem; margin-top:3px;">${item.price} ${translations[currentLang].currency}</div>
+                        <div class="quantity-control">
+                            <button class="qty-btn" onclick="changeQty(${item.id}, -1)">-</button>
+                            <span>${item.quantity}</span>
+                            <button class="qty-btn" onclick="changeQty(${item.id}, 1)">+</button>
+                        </div>
+                    </div>
+                `;
+                list.appendChild(itemEl);
+            });
+
+            document.getElementById('cart-count').innerText = count;
+            document.getElementById('cart-total-price').innerText = `${total} ${translations[currentLang].currency}`;
+        }
+
+        function openCheckoutModal() {
+            if (cart.length === 0) {
+                alert(currentLang === 'ar' ? "سلتك فارغة حالياً!" : "Your cart is empty!");
+                return;
+            }
+            toggleCart(false);
+            document.getElementById('checkout-modal').classList.add('active');
+        }
+
+        function closeCheckoutModal() { document.getElementById('checkout-modal').classList.remove('active'); }
+
+        function sendOrderToWhatsapp(e) {
+            e.preventDefault();
+
+            const name = document.getElementById('cust-name').value;
+            const phone = document.getElementById('cust-phone').value;
+            const address = document.getElementById('cust-address').value;
+            const payment = document.getElementById('cust-payment').value;
+
+            let orderDetails = currentLang === 'ar' ? `🧾 *إيصال طلب شراء جديد من الصيني استور*\n\n` : `🧾 *New Order Receipt from El Sini Store*\n\n`;
+            orderDetails += `👤 *الاسم:* ${name}\n📞 *الرقم:* ${phone}\n📍 *العنوان:* ${address}\n💳 *طريقة الدفع:* ${payment}\n`;
+            orderDetails += `--------------------------------\n📦 *المنتجات المطلوبة:*\n`;
+
+            let total = 0;
+            cart.forEach((item, index) => {
+                const title = currentLang === 'ar' ? item.titleAr : item.titleEn;
+                orderDetails += `${index + 1}. ${title} (العدد: ${item.quantity}) -> بسعر: ${item.price * item.quantity} ${translations[currentLang].currency}\n`;
+                total += item.price * item.quantity;
+            });
+
+            orderDetails += `--------------------------------\n💰 *الإجمالي النهائي:* ${total} ${translations[currentLang].currency}\n\n✨ شكرًا لتسوقكم معنا!`;
+
+            const whatsappUrl = `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(orderDetails)}`;
+            window.open(whatsappUrl, '_blank');
+
+            cart = [];
+            updateCartUI();
+            closeCheckoutModal();
+            document.getElementById('order-form').reset();
+        }
+    </script>
+</body>
+</html>
